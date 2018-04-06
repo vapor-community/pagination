@@ -1,0 +1,142 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Console",
+        "repositoryURL": "https://github.com/vapor/console.git",
+        "state": {
+          "branch": null,
+          "revision": "038e30ec9004fb1915d14d964a3facc1ec5c80f4",
+          "version": "3.0.0"
+        }
+      },
+      {
+        "package": "Core",
+        "repositoryURL": "https://github.com/vapor/core.git",
+        "state": {
+          "branch": null,
+          "revision": "5383e40f19d71da99e496afa9972c085abc2379d",
+          "version": "3.0.2"
+        }
+      },
+      {
+        "package": "Crypto",
+        "repositoryURL": "https://github.com/vapor/crypto.git",
+        "state": {
+          "branch": null,
+          "revision": "e77aa181580b466fb26865918b62973d9fbfaed6",
+          "version": "3.0.0"
+        }
+      },
+      {
+        "package": "DatabaseKit",
+        "repositoryURL": "https://github.com/vapor/database-kit.git",
+        "state": {
+          "branch": null,
+          "revision": "e594e658cc001e04b8d4ad13881d8714c510f94f",
+          "version": "1.0.0-rc.2.2.2"
+        }
+      },
+      {
+        "package": "Engine",
+        "repositoryURL": "https://github.com/vapor/engine.git",
+        "state": {
+          "branch": null,
+          "revision": "4846ea9abeb04863f82f618ee8cb22650a82ae3c",
+          "version": "3.0.0-rc.2.1.1"
+        }
+      },
+      {
+        "package": "Fluent",
+        "repositoryURL": "https://github.com/vapor/fluent.git",
+        "state": {
+          "branch": null,
+          "revision": "eb63485dfd6fbd0773a25e1b94830fbcedaa8266",
+          "version": "3.0.0-rc.2.3.1"
+        }
+      },
+      {
+        "package": "Routing",
+        "repositoryURL": "https://github.com/vapor/routing.git",
+        "state": {
+          "branch": null,
+          "revision": "2fc1d4de22a54848b35ad17b3e7f7816f19ebf90",
+          "version": "3.0.0-rc.2"
+        }
+      },
+      {
+        "package": "Service",
+        "repositoryURL": "https://github.com/vapor/service.git",
+        "state": {
+          "branch": null,
+          "revision": "281a70b69783891900be31a9e70051b6fe19e146",
+          "version": "1.0.0"
+        }
+      },
+      {
+        "package": "swift-nio",
+        "repositoryURL": "https://github.com/apple/swift-nio.git",
+        "state": {
+          "branch": null,
+          "revision": "a0b7f646fba61402da384b3202f54c27debb5e13",
+          "version": "1.3.1"
+        }
+      },
+      {
+        "package": "swift-nio-ssl",
+        "repositoryURL": "https://github.com/apple/swift-nio-ssl.git",
+        "state": {
+          "branch": null,
+          "revision": "ea006b6368dbd9dbfd297deb6ddb3f070b72d043",
+          "version": "1.0.1"
+        }
+      },
+      {
+        "package": "swift-nio-ssl-support",
+        "repositoryURL": "https://github.com/apple/swift-nio-ssl-support.git",
+        "state": {
+          "branch": null,
+          "revision": "c02eec4e0e6d351cd092938cf44195a8e669f555",
+          "version": "1.0.0"
+        }
+      },
+      {
+        "package": "swift-nio-zlib-support",
+        "repositoryURL": "https://github.com/apple/swift-nio-zlib-support.git",
+        "state": {
+          "branch": null,
+          "revision": "37760e9a52030bb9011972c5213c3350fa9d41fd",
+          "version": "1.0.0"
+        }
+      },
+      {
+        "package": "TemplateKit",
+        "repositoryURL": "https://github.com/vapor/template-kit.git",
+        "state": {
+          "branch": null,
+          "revision": "61ed3d3b0df4c181d6b88e06b418f425978ac2af",
+          "version": "1.0.0-rc.2.0.3"
+        }
+      },
+      {
+        "package": "Validation",
+        "repositoryURL": "https://github.com/vapor/validation.git",
+        "state": {
+          "branch": null,
+          "revision": "1ce87fc2d18a8f15a491805825063c8db493a51e",
+          "version": "2.0.0-rc.2.1.1"
+        }
+      },
+      {
+        "package": "Vapor",
+        "repositoryURL": "https://github.com/vapor/vapor.git",
+        "state": {
+          "branch": null,
+          "revision": "c045b8d02e6a135f055e879a9fa789026a0b4e9d",
+          "version": "3.0.0-rc.2.2.4"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
