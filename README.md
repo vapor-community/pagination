@@ -16,7 +16,7 @@ extension MyModel: Paginatable { }
 
 Once you have done that, it's as simple as returning your query in paginated format.
 ```swift
-func listAllSchools(_ req: Request) throws -> Future<Paginated<MyModel>> {
+func test(_ req: Request) throws -> Future<Paginated<MyModel>> {
     return try MyModel.query(on: req).paginate(for: req)
 }
 ```
