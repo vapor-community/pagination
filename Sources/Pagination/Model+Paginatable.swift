@@ -13,7 +13,7 @@ extension Model where Self: Paginatable {
     /// Returns a paginated response on `.all()` entities
     /// using page number from the request data
     public static func paginate(for req: Request, key: String = Pagination.defaultPageKey, perKey: String = Pagination.defaultPagePerKey, _ sorts: [QuerySort] = Self.defaultPageSorts) throws -> Future<Page<Self>> {
-        return try self.paginate(
+        return try Self.query(on: req).paginate(
             for: req,
             key: key,
             perKey: perKey,
