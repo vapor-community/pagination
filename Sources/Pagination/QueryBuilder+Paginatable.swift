@@ -20,8 +20,8 @@ extension QueryBuilder where Model: Paginatable {
         let page = page > 0 ? page : 1
         
         // Limit the query to the desired page
-	let lowerBound = (page - 1) * count
-	self.query.range = QueryRange(lower: lowerBound, upper: lowerBound + count)
+        let lowerBound = (page - 1) * count
+        self.query.range = QueryRange(lower: lowerBound, upper: lowerBound + count)
         
         // Create the query and get a total count
         return self.count().flatMap(to: Page<Model>.self) { total in
@@ -49,9 +49,8 @@ extension QueryBuilder where Model: Paginatable {
     }
 }
 
-extension QueryBuilder where Model: Paginatable {
-    /// Returns a paginated response using page
-    /// number from the request data
+extension QueryBuilder where Model: Paginatable, Model: Content {
+    /// Returns a page-based response using page number from the request data
     public func paginate(for req: Request, key: String = Pagination.defaultPageKey, perKey: String = Pagination.defaultPagePerKey, _ sorts: [QuerySort] = Model.defaultPageSorts) throws -> Future<Page<Model>> {
         let page = try req.query.get(Int?.self, at: key) ?? 1
         var per = try req.query.get(Int?.self, at: perKey) ?? Model.defaultPageSize
@@ -64,11 +63,9 @@ extension QueryBuilder where Model: Paginatable {
             sorts
         )
     }
-}
-
-extension QueryBuilder where Model: Paginatable {
-    /// Returns a mapped out future response
-    public func paginate<T>(for req: Request) throws -> Future<Paginated<T>> {
-        return try T.paginate(for: req).map(to: Paginated<T>.self) { $0.response() }
+    
+    /// Returns a paginated response using page number from the request data
+    public func paginate(for req: Request) throws -> Future<Paginated<Model>> {
+        return try self.paginate(for: req).map(to: Paginated<Model>.self) { $0.response() }
     }
 }
