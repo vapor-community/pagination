@@ -20,8 +20,8 @@ extension QueryBuilder where Model: Paginatable {
         let page = page > 0 ? page : 1
         
         // Limit the query to the desired page
-		let lowerBound = (page - 1) * count
-		self.query.range = QueryRange(lower: lowerBound, upper: lowerBound + count)
+	let lowerBound = (page - 1) * count
+	self.query.range = QueryRange(lower: lowerBound, upper: lowerBound + count)
         
         // Create the query and get a total count
         return self.count().flatMap(to: Page<Model>.self) { total in
