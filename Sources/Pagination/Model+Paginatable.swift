@@ -9,7 +9,7 @@ import Foundation
 import Fluent
 import Vapor
 
-extension Model where Self: Paginatable {
+extension Model where Self: Paginatable, Self: Content {
     /// Returns a paginated response on `.all()` entities
     /// using page number from the request data
     public static func paginate(for req: Request, key: String = Pagination.defaultPageKey, perKey: String = Pagination.defaultPagePerKey, _ sorts: [QuerySort] = Self.defaultPageSorts) throws -> Future<Page<Self>> {
