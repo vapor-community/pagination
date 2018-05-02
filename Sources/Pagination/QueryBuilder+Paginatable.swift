@@ -10,7 +10,7 @@ import Fluent
 import Vapor
 
 extension QueryBuilder where Model: Paginatable {
-    public func paginate(page: Int, count: Int = Model.defaultPageSize, _ sorts: [QuerySort] = Model.defaultPageSorts, _ groups: [QueryGroupBy] = Model.defaultPageGroups) throws -> Future<Page<Model>> {
+    public func paginate(page: Int, count: Int = Model.defaultPageSize, _ sorts: [QuerySort] = Model.defaultPageSorts) throws -> Future<Page<Model>> {
         // Make sure the current pzge is greater than 0
         guard page > 0 else {
             throw PaginationError.invalidPageNumber(page)
@@ -24,11 +24,8 @@ extension QueryBuilder where Model: Paginatable {
         self.query.range = QueryRange(lower: lowerBound, upper: lowerBound + count)
         
         // Create the query
-        // Add the sorts/groups w/o replacing
-        // BUG: An issue with fluent causes issues with grouping and sorting.
-        // https://github.com/vapor/fluent/issues/438
-//        self.query.groups.append(contentsOf: groups)
-//        self.query.sorts.append(contentsOf: sorts)
+        // Add the sorts w/o replacing
+        self.query.sorts.append(contentsOf: sorts)
         
         // Fetch the data
         return self.all().map(to: Page<Model>.self) { results in
