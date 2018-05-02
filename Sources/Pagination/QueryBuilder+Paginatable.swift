@@ -23,28 +23,21 @@ extension QueryBuilder where Model: Paginatable {
         let lowerBound = (page - 1) * count
         self.query.range = QueryRange(lower: lowerBound, upper: lowerBound + count)
         
-        // Create the query and get a total count
-        return self.count().flatMap(to: Page<Model>.self) { total in
-            // Remove all the aggregates from the count
-            // Note: Using the `.count()` method appends aggregates to the query
-            // which then causes issues below with actually returning the data
-            self.query.aggregates.removeAll()
-            
-            // Add the sorts/groups w/o replacing
-            // BUG: An issue with fluent causes issues with grouping and sorting.
-            // https://github.com/vapor/fluent/issues/438
-//            self.query.groups.append(contentsOf: groups)
-//            self.query.sorts.append(contentsOf: sorts)
-            
-            // Fetch the data
-            return self.all().map(to: Page<Model>.self) { results in
-                return try Page<Model>(
-                    number: page,
-                    data: results as! [Model],
-                    size: count,
-                    total: total
-                )
-            }
+        // Create the query
+        // Add the sorts/groups w/o replacing
+        // BUG: An issue with fluent causes issues with grouping and sorting.
+        // https://github.com/vapor/fluent/issues/438
+//        self.query.groups.append(contentsOf: groups)
+//        self.query.sorts.append(contentsOf: sorts)
+        
+        // Fetch the data
+        return self.all().map(to: Page<Model>.self) { results in
+            return try Page<Model>(
+                number: page,
+                data: results as! [Model],
+                size: count,
+                total: results.count
+            )
         }
     }
 }
