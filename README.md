@@ -29,7 +29,7 @@ func test(_ req: Request) throws -> Future<Paginated<MyModel>> {
 
 Making a request with the parameters is easy is appending `?page=` and/or `?size=`
 ```curl
-curl "http://localhost:8080/api/v1/models&page=1&size=10"
+curl "http://localhost:8080/api/v1/models?page=1&size=10"
 ```
 
 A response looks like this
