@@ -41,8 +41,8 @@ extension QueryBuilder where Model: Paginatable {
 
 extension QueryBuilder where Model: Paginatable, Model: Content {
     /// Returns a page-based response using page number from the request data
-    public func paginate(for req: Request, key: String = Pagination.defaultPageKey, perKey: String = Pagination.defaultPagePerKey, _ sorts: [QuerySort] = Model.defaultPageSorts) throws -> Future<Page<Model>> {
-        let page = try req.query.get(Int?.self, at: key) ?? 1
+    public func paginate(for req: Request, pageKey: String = Pagination.defaultPageKey, perKey: String = Pagination.defaultPagePerKey, _ sorts: [QuerySort] = Model.defaultPageSorts) throws -> Future<Page<Model>> {
+        let page = try req.query.get(Int?.self, at: pageKey) ?? 1
         var per = try req.query.get(Int?.self, at: perKey) ?? Model.defaultPageSize
         if let maxPer = Model.maxPageSize, per > maxPer {
             per = maxPer
