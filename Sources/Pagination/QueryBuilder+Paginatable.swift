@@ -10,7 +10,7 @@ import Fluent
 import Vapor
 
 extension QueryBuilder where Model: Paginatable {
-    public func paginate(page: Int, count: Int = Model.defaultPageSize, _ sorts: [QuerySort] = Model.defaultPageSorts) throws -> Future<Page<Model>> {
+    public func paginate(page: Int, per: Int = Model.defaultPageSize, _ sorts: [QuerySort] = Model.defaultPageSorts) throws -> Future<Page<Model>> {
         // Make sure the current pzge is greater than 0
         guard page > 0 else {
             throw PaginationError.invalidPageNumber(page)
@@ -20,8 +20,8 @@ extension QueryBuilder where Model: Paginatable {
         let page = page > 0 ? page : 1
         
         // Limit the query to the desired page
-        let lowerBound = (page - 1) * count
-        self.query.range = QueryRange(lower: lowerBound, upper: lowerBound + count)
+        let lowerBound = (page - 1) * per
+        self.query.range = QueryRange(lower: lowerBound, upper: lowerBound + per)
         
         // Create the query
         // Add the sorts w/o replacing
@@ -32,7 +32,7 @@ extension QueryBuilder where Model: Paginatable {
             return try Page<Model>(
                 number: page,
                 data: results as! [Model],
-                size: count,
+                size: per,
                 total: results.count
             )
         }
@@ -41,15 +41,15 @@ extension QueryBuilder where Model: Paginatable {
 
 extension QueryBuilder where Model: Paginatable, Model: Content {
     /// Returns a page-based response using page number from the request data
-    public func paginate(for req: Request, pageKey: String = Pagination.defaultPageKey, perKey: String = Pagination.defaultPagePerKey, _ sorts: [QuerySort] = Model.defaultPageSorts) throws -> Future<Page<Model>> {
+    public func paginate(for req: Request, pageKey: String = Pagination.defaultPageKey, perPageKey: String = Pagination.defaultPerPageKey, _ sorts: [QuerySort] = Model.defaultPageSorts) throws -> Future<Page<Model>> {
         let page = try req.query.get(Int?.self, at: pageKey) ?? 1
-        var per = try req.query.get(Int?.self, at: perKey) ?? Model.defaultPageSize
+        var per = try req.query.get(Int?.self, at: perPageKey) ?? Model.defaultPageSize
         if let maxPer = Model.maxPageSize, per > maxPer {
             per = maxPer
         }
         return try self.paginate(
             page: page,
-            count: per,
+            per: per,
             sorts
         )
     }

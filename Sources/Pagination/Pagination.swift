@@ -6,4 +6,4 @@
 //
 
 public var defaultPageKey = "page"
-public var defaultPagePerKey = "size"
+public var defaultPerPageKey = "per"
