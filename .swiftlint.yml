@@ -1,2 +1,7 @@
+disabled_rules:
+  - line_length
 excluded:
   - .build
+  - Tests/
+
+force_cast: warning
