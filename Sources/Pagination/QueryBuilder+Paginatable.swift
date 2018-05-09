@@ -15,18 +15,18 @@ extension QueryBuilder where Model: Paginatable {
         guard page > 0 else {
             throw PaginationError.invalidPageNumber(page)
         }
-        
+
         // Require page 1 or greater
         let page = page > 0 ? page : 1
-        
+
         // Limit the query to the desired page
         let lowerBound = (page - 1) * per
         self.query.range = QueryRange(lower: lowerBound, upper: lowerBound + per)
-        
+
         // Create the query
         // Add the sorts w/o replacing
         self.query.sorts.append(contentsOf: sorts)
-        
+
         // Fetch the data
         return self.all().map(to: Page<Model>.self) { results in
             return try Page<Model>(
@@ -53,7 +53,7 @@ extension QueryBuilder where Model: Paginatable, Model: Content {
             sorts
         )
     }
-    
+
     /// Returns a paginated response using page number from the request data
     public func paginate(for req: Request) throws -> Future<Paginated<Model>> {
         return try self.paginate(for: req).map(to: Paginated<Model>.self) { $0.response() }

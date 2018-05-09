@@ -24,7 +24,7 @@ extension Paginatable {
     public static var defaultPageSize: Int {
         return 10
     }
-    
+
     public static var maxPageSize: Int? {
         return nil
     }

@@ -14,7 +14,7 @@ public struct Page<M: Model & Paginatable> {
     public let data: [M]
     public let size: Int
     public let total: Int
-    
+
     // The query used must already be filtered for
     // pagination and ready for `.all()` call
     public init(number: Int, data: [M], size: Int = M.defaultPageSize, total: Int) throws {

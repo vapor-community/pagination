@@ -12,11 +12,11 @@ import Pagination
 
 final class TestModel: SQLiteModel {
     var id: Int?
-    
+
     var name: String
     var createdAt: Date?
     var updatedAt: Date?
-    
+
     init(id: Int? = nil, name: String) {
         self.id = id
         self.name = name

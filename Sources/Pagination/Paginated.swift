@@ -45,7 +45,7 @@ extension Page where M: Paginatable & Content {
             position: position,
             data: pageData
         )
-        
+
         return Paginated(
             page: pageInfo,
             data: data
