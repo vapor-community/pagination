@@ -23,7 +23,7 @@ public struct PageInfo: Content {
     var position: Position
     var data: PageData
 }
-public struct Paginated<M: Model & Paginatable & Content>: Content {
+public struct Paginated<M: Content>: Content {
     var page: PageInfo
     var data: [M]
 }
