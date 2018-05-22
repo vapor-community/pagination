@@ -9,6 +9,7 @@ import Foundation
 import FluentSQLite
 import Fluent
 import Pagination
+import Vapor
 
 final class TestModel: SQLiteModel {
     var id: Int?
@@ -26,6 +27,8 @@ final class TestModel: SQLiteModel {
 extension TestModel: Migration { }
 
 extension TestModel: Paginatable { }
+
+extension TestModel: Content { }
 
 extension TestModel: Timestampable {
     static var createdAtKey: WritableKeyPath<TestModel, Date?> = \TestModel.createdAt

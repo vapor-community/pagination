@@ -38,6 +38,16 @@ final class PaginationTests: XCTestCase {
         XCTAssertEqual(pageInfo.total, 1)
         XCTAssertEqual(pageInfo.data.first?.name, model.name)
     }
+    
+    func testPaginationResponse() throws {
+        for i in 0..<20 {
+            try TestModel.create(name: "Test \(i)", on: self.sqlConnection)
+        }
+        let pageInfo = try TestModel.query(on: self.sqlConnection).paginate(page: 1).wait()
+        let pageResponse = pageInfo.response()
+        XCTAssertEqual(pageInfo.total, 20)
+        XCTAssertEqual(pageResponse.page.position.max, 2)
+    }
 
     static var allTests = [
         ("testQuery", testQuery),
