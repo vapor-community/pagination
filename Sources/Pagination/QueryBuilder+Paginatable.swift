@@ -19,22 +19,28 @@ extension QueryBuilder where Model: Paginatable {
         // Require page 1 or greater
         let page = page > 0 ? page : 1
 
-        // Limit the query to the desired page
-        let lowerBound = (page - 1) * per
-        self.query.range = QueryRange(lower: lowerBound, upper: lowerBound + per)
-
-        // Create the query
-        // Add the sorts w/o replacing
-        self.query.sorts.append(contentsOf: sorts)
-
-        // Fetch the data
-        return self.all().map(to: Page<Model>.self) { results in
-            return try Page<Model>(
-                number: page,
-                data: results as! [Model],
-                size: per,
-                total: results.count
-            )
+        // Return a full count
+        return self.count().flatMap(to: Page<Model>.self) { total in
+            // Clear all aggregates
+            self.query.aggregates.removeAll()
+            
+            // Limit the query to the desired page
+            let lowerBound = (page - 1) * per
+            self.query.range = QueryRange(lower: lowerBound, upper: lowerBound + per)
+            
+            // Create the query
+            // Add the sorts w/o replacing
+            self.query.sorts.append(contentsOf: sorts)
+            
+            // Fetch the data
+            return self.all().map(to: Page<Model>.self) { results in
+                return try Page<Model>(
+                    number: page,
+                    data: results as! [Model],
+                    size: per,
+                    total: total
+                )
+            }
         }
     }
 }
