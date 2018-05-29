@@ -10,22 +10,22 @@ import Fluent
 import Vapor
 
 public struct Position: Content {
-    var current: Int
-    var next: Int?
-    var previous: Int?
-    var max: Int
+    public var current: Int
+    public var next: Int?
+    public var previous: Int?
+    public var max: Int
 }
 public struct PageData: Content {
-    var per: Int
-    var total: Int
+    public var per: Int
+    public var total: Int
 }
 public struct PageInfo: Content {
-    var position: Position
-    var data: PageData
+    public var position: Position
+    public var data: PageData
 }
 public struct Paginated<M: Content>: Content {
-    var page: PageInfo
-    var data: [M]
+    public var page: PageInfo
+    public var data: [M]
 }
 
 extension Page where M: Content {
@@ -45,7 +45,6 @@ extension Page where M: Content {
             position: position,
             data: pageData
         )
-
         return Paginated(
             page: pageInfo,
             data: self.data
