@@ -1,3 +1,7 @@
+![Swift](http://img.shields.io/badge/swift-4.1-brightgreen.svg)
+![Vapor](http://img.shields.io/badge/vapor-3.0-brightgreen.svg)
+[![CircleCI](https://circleci.com/gh/vapor-community/pagination.svg?style=svg)](https://circleci.com/gh/vapor-community/pagination)
+
 # Vapor Pagination
 
 Pagination is based off of the Fluent 2 pagination system.
