@@ -15,8 +15,9 @@ final class TestModel: SQLiteModel {
     var id: Int?
 
     var name: String
-    var createdAt: Date?
-    var updatedAt: Date?
+    
+    var fluentCreatedAt: Date?
+    var fluentUpdatedAt: Date?
 
     init(id: Int? = nil, name: String) {
         self.id = id
@@ -26,14 +27,41 @@ final class TestModel: SQLiteModel {
 
 extension TestModel: Migration { }
 
-extension TestModel: Paginatable { }
+extension TestModel: Paginatable {
+    static var defaultPageSorts: [TestModel.QuerySort] {
+        <#code#>
+    }
+    
+    typealias Query = <#type#>
+    
+    typealias Output = <#type#>
+    
+    typealias QueryAction = <#type#>
+    
+    typealias QueryAggregate = <#type#>
+    
+    typealias QueryData = <#type#>
+    
+    typealias QueryField = <#type#>
+    
+    typealias QueryFilterMethod = <#type#>
+    
+    typealias QueryFilterValue = <#type#>
+    
+    typealias QueryFilter = <#type#>
+    
+    typealias QueryFilterRelation = <#type#>
+    
+    typealias QueryKey = <#type#>
+    
+    typealias QuerySort = <#type#>
+    
+    typealias QuerySortDirection = <#type#>
+    
+    typealias Connection = <#type#>
+}
 
 extension TestModel: Content { }
-
-extension TestModel: Timestampable {
-    static var createdAtKey: WritableKeyPath<TestModel, Date?> = \TestModel.createdAt
-    static var updatedAtKey: WritableKeyPath<TestModel, Date?> = \TestModel.updatedAt
-}
 
 extension TestModel {
     @discardableResult
