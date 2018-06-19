@@ -20,15 +20,14 @@ extension Application {
 
         var databases = DatabasesConfig()
         try databases.add(database: SQLiteDatabase(storage: .memory), as: .sqlite)
+        databases.enableLogging(on: .sqlite)
         services.register(databases)
 
         var migrations = MigrationConfig()
         migrations.add(model: TestModel.self, database: .sqlite)
         services.register(migrations)
 
-        let app = try Application(config: config, environment: env, services: services)
-//        try app.asyncRun().wait()
-        return app
+        return try Application(config: config, environment: env, services: services)
     }
 
     static func reset() throws {

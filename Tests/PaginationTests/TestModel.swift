@@ -16,13 +16,18 @@ final class TestModel: SQLiteModel {
 
     var name: String
     
-    var fluentCreatedAt: Date?
-    var fluentUpdatedAt: Date?
+    var createdAt: Date?
+    var updatedAt: Date?
 
     init(id: Int? = nil, name: String) {
         self.id = id
         self.name = name
     }
+}
+
+extension TestModel {
+    public static var createdAtKey: TimestampKey? = \TestModel.createdAt
+    public static var updatedAtKey: TimestampKey? = \TestModel.updatedAt
 }
 
 extension TestModel: Migration { }
