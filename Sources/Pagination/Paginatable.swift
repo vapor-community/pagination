@@ -14,10 +14,10 @@ public enum PaginationError: Error {
     case unspecified(Error)
 }
 
-public protocol Paginatable: QuerySupporting {
+public protocol Paginatable: Model {
     static var defaultPageSize: Int { get }
     static var maxPageSize: Int? { get }
-    static var defaultPageSorts: [QuerySort] { get }
+    static var defaultPageSorts: [Self.Database.QuerySort] { get }
 }
 
 extension Paginatable {
@@ -30,21 +30,21 @@ extension Paginatable {
     }
 }
 
-extension Paginatable where Self: Model, Self: QuerySupporting {
-    public static var defaultSorts: [Database.QuerySort] {
+extension Paginatable where Self: QuerySupporting {
+    public static var defaultSorts: [Self.Database.QuerySort] {
         return [
-            Self.createdAtKey?.querySort(Database.querySortDirectionDescending) ?? Self.idKey.querySort(Database.querySortDirectionAscending)
+            Self.createdAtKey?.querySort(Self.Database.querySortDirectionDescending) ?? Self.idKey.querySort(Self.Database.querySortDirectionAscending)
         ]
     }
 }
 
 extension KeyPath where Root: Model {
-    public func querySort(_ direction: Root.Database.QuerySortDirection = Root.Database.querySortDirectionAscending) -> Root.Database.QuerySort{
-        return Root.Database.querySort(queryField, direction)
+    public func querySort(_ direction: Root.Database.QuerySortDirection = Root.Database.querySortDirectionAscending) -> Root.Database.QuerySort {
+        return Root.Database.querySort(self.queryField, direction)
     }
     
     public var fluentProperty: FluentProperty {
-        return .keyPath(self)
+        return FluentProperty.keyPath(self)
     }
     
     public var queryField: Root.Database.QueryField {
