@@ -14,18 +14,43 @@ public struct Position: Content {
     public var next: Int?
     public var previous: Int?
     public var max: Int
+    
+    public init(current: Int, next: Int? = nil, previous: Int? = nil, max: Int) {
+        self.current = current
+        self.next = next
+        self.previous = previous
+        self.max = max
+    }
 }
+
 public struct PageData: Content {
     public var per: Int
     public var total: Int
+    
+    public init(per: Int, total: Int) {
+        self.per = per
+        self.total = total
+    }
 }
+
 public struct PageInfo: Content {
     public var position: Position
     public var data: PageData
+    
+    public init(position: Position, data: PageData) {
+        self.position = position
+        self.data = data
+    }
 }
+
 public struct Paginated<M: Content>: Content {
     public var page: PageInfo
     public var data: [M]
+    
+    public init(page: PageInfo, data: [M]) {
+        self.page = page
+        self.data = data
+    }
 }
 
 extension Page where M: Content {
