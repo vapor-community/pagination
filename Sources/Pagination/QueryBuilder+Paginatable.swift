@@ -19,13 +19,17 @@ extension QueryBuilder where Result: Paginatable, Result.Database == Database {
         // Require page 1 or greater
         let page = page > 0 ? page : 1
         
+        // For now until https://github.com/vapor/fluent/issues/518 is fixed, this is the work around.
+        let copy = self.query
+        
         // Return a full count
         return self.count().flatMap(to: Page<Result>.self) { total in
+            self.query = copy
             // Limit the query to the desired page
             let lowerBound = (page - 1) * per
             Database.queryRangeApply(lower: lowerBound, upper: lowerBound + per, to: &self.query)
             
-            // Add the sorts w/o replacing
+            // Add the sorts
             for sort in sorts {
                 Database.querySortApply(sort, to: &self.query)
             }
