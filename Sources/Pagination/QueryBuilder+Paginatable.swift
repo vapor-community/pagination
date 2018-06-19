@@ -9,7 +9,7 @@ import Foundation
 import Fluent
 import Vapor
 
-extension QueryBuilder where Result: Model & Paginatable {
+extension QueryBuilder where Result: Paginatable, Result.Database == Database {
     public func paginate(page: Int, per: Int = Result.defaultPageSize, _ sorts: [Result.Database.QuerySort] = Result.defaultPageSorts) throws -> Future<Page<Result>> {
         // Make sure the current pzge is greater than 0
         guard page > 0 else {
@@ -18,22 +18,20 @@ extension QueryBuilder where Result: Model & Paginatable {
 
         // Require page 1 or greater
         let page = page > 0 ? page : 1
-
+        
         // Return a full count
         return self.count().flatMap(to: Page<Result>.self) { total in
-            // Clear all aggregates
-//            self.query.aggregates.removeAll()
-            
             // Limit the query to the desired page
             let lowerBound = (page - 1) * per
-            let rangedQuery = self.range(lower: lowerBound, upper: lowerBound + per)
+            Database.queryRangeApply(lower: lowerBound, upper: lowerBound + per, to: &self.query)
             
-            // Create the query
             // Add the sorts w/o replacing
-//            let sortedQuery = rangedQuery.sort(sorts.first!)
-            let sortedQuery = rangedQuery
+            for sort in sorts {
+                Database.querySortApply(sort, to: &self.query)
+            }
+            
             // Fetch the data
-            return sortedQuery.all().map(to: Page<Result>.self) { results in
+            return self.all().map(to: Page<Result>.self) { results in
                 return try Page<Result>(
                     number: page,
                     data: results,
@@ -45,7 +43,7 @@ extension QueryBuilder where Result: Model & Paginatable {
     }
 }
 
-extension QueryBuilder where Result: Model & Paginatable & Content {
+extension QueryBuilder where Result: Paginatable & Content, Result.Database == Database {
     /// Returns a page-based response using page number from the request data
     public func paginate(for req: Request, pageKey: String = Pagination.defaultPageKey, perPageKey: String = Pagination.defaultPerPageKey, _ sorts: [Result.Database.QuerySort] = Result.defaultPageSorts) throws -> Future<Page<Result>> {
         let page = try req.query.get(Int?.self, at: pageKey) ?? 1
@@ -53,11 +51,7 @@ extension QueryBuilder where Result: Model & Paginatable & Content {
         if let maxPer = Result.maxPageSize, per > maxPer {
             per = maxPer
         }
-        return try self.paginate(
-            page: page,
-            per: per,
-            sorts
-        )
+        return try self.paginate(page: page, per: per, sorts)
     }
 
     /// Returns a paginated response using page number from the request data

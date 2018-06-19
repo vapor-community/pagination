@@ -28,10 +28,8 @@ extension Paginatable {
     public static var maxPageSize: Int? {
         return nil
     }
-}
 
-extension Paginatable where Self: QuerySupporting {
-    public static var defaultSorts: [Self.Database.QuerySort] {
+    public static var defaultPageSorts: [Self.Database.QuerySort] {
         return [
             Self.createdAtKey?.querySort(Self.Database.querySortDirectionDescending) ?? Self.idKey.querySort(Self.Database.querySortDirectionAscending)
         ]
