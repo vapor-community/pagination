@@ -31,13 +31,13 @@ extension Paginatable {
 
     public static var defaultPageSorts: [Self.Database.QuerySort] {
         return [
-            Self.createdAtKey?.querySort(Self.Database.querySortDirectionDescending) ?? Self.idKey.querySort(Self.Database.querySortDirectionAscending)
+            Self.createdAtKey?.querySort(Self.Database.querySortDirectionDescending) ?? Self.idKey.querySort(Self.Database.querySortDirectionDescending)
         ]
     }
 }
 
 extension KeyPath where Root: Model {
-    public func querySort(_ direction: Root.Database.QuerySortDirection = Root.Database.querySortDirectionAscending) -> Root.Database.QuerySort {
+    public func querySort(_ direction: Root.Database.QuerySortDirection = Root.Database.querySortDirectionDescending) -> Root.Database.QuerySort {
         return Root.Database.querySort(self.queryField, direction)
     }
     
