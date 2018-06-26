@@ -47,7 +47,7 @@ extension QueryBuilder where Result: Paginatable, Result.Database == Database {
     }
 }
 
-extension QueryBuilder where Result: Paginatable & Content, Result.Database == Database {
+extension QueryBuilder where Result: Paginatable, Result.Database == Database {
     /// Returns a page-based response using page number from the request data
     public func paginate(for req: Request, pageKey: String = Pagination.defaultPageKey, perPageKey: String = Pagination.defaultPerPageKey, _ sorts: [Result.Database.QuerySort] = Result.defaultPageSorts) throws -> Future<Page<Result>> {
         let page = try req.query.get(Int?.self, at: pageKey) ?? 1
@@ -57,7 +57,9 @@ extension QueryBuilder where Result: Paginatable & Content, Result.Database == D
         }
         return try self.paginate(page: page, per: per, sorts)
     }
+}
 
+extension QueryBuilder where Result: Paginatable & Content, Result.Database == Database {
     /// Returns a paginated response using page number from the request data
     public func paginate(for req: Request) throws -> Future<Paginated<Result>> {
         return try self.paginate(for: req).map(to: Paginated<Result>.self) { $0.response() }
