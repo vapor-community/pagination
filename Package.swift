@@ -10,8 +10,8 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/vapor/vapor.git", from: "3.0.0"),
-        .package(url: "https://github.com/vapor/fluent.git", from: "3.0.0-rc"),
-        .package(url: "https://github.com/vapor/fluent-sqlite.git", from: "3.0.0-rc")
+        .package(url: "https://github.com/vapor/fluent.git", from: "3.0.0"),
+        .package(url: "https://github.com/vapor/fluent-sqlite.git", from: "3.0.0")
     ],
     targets: [
         .target(name: "Pagination", dependencies: ["Vapor", "Fluent"]),
