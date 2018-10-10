@@ -20,7 +20,7 @@ final class PaginationTests: XCTestCase {
     }
 
     func testQuery() throws {
-        let models = try [
+        let models: [TestModel] = try [
             TestModel.create(name: "Test 1", on: self.sqlConnection),
             TestModel.create(name: "Test 2", on: self.sqlConnection),
             TestModel.create(name: "Test 3", on: self.sqlConnection),
@@ -28,8 +28,9 @@ final class PaginationTests: XCTestCase {
             TestModel.create(name: "Test 5", on: self.sqlConnection)
         ]
 
-        let pageInfo = try TestModel.query(on: self.sqlConnection).paginate(page: 1).wait()
+        let pageInfo = try TestModel.query(on: self.sqlConnection).sort(\.id).paginate(page: 1).wait()
         XCTAssertEqual(pageInfo.total, models.count)
+        XCTAssertEqual(pageInfo.data, models)
     }
 
     func testFilterQuery() throws {

@@ -42,3 +42,9 @@ extension TestModel {
         return try TestModel(name: name).save(on: connection).wait()
     }
 }
+
+extension TestModel: Equatable {
+    static func == (lhs: TestModel, rhs: TestModel) -> Bool {
+        return lhs.id == rhs.id
+    }
+}
