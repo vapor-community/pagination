@@ -11,6 +11,7 @@ import Vapor
 
 public enum PaginationError: Error {
     case invalidPageNumber(Int)
+    case invalidPerSize(Int)
     case unspecified(Error)
 }
 
