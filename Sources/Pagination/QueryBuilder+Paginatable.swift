@@ -11,9 +11,14 @@ import Vapor
 
 extension QueryBuilder where Result: Paginatable, Result.Database == Database {
     public func paginate(page: Int, per: Int = Result.defaultPageSize, _ sorts: [Result.Database.QuerySort] = Result.defaultPageSorts) throws -> Future<Page<Result>> {
-        // Make sure the current pzge is greater than 0
+        // Make sure the current page is greater than 0
         guard page > 0 else {
             throw PaginationError.invalidPageNumber(page)
+        }
+
+        // Per-page also must be greater than zero
+        guard per > 0 else {
+            throw PaginationError.invalidPerSize(per)
         }
 
         // Require page 1 or greater
