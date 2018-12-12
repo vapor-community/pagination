@@ -19,15 +19,15 @@ final class PaginationTests: XCTestCase {
         super.tearDown()
     }
 
-	func testLinuxTestSuiteIncludesAllTests() {
-		#if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
-		let thisClass = type(of: self)
-		let linuxCount = thisClass.allTests.count
-		let darwinCount = Int(thisClass
-			.defaultTestSuite.testCaseCount)
-		XCTAssertEqual(linuxCount, darwinCount, "\(darwinCount - linuxCount) tests are missing from allTests")
-		#endif
-	}
+    func testLinuxTestSuiteIncludesAllTests() {
+        #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
+        let thisClass = type(of: self)
+        let linuxCount = thisClass.allTests.count
+        let darwinCount = Int(thisClass
+            .defaultTestSuite.testCaseCount)
+        XCTAssertEqual(linuxCount, darwinCount, "\(darwinCount - linuxCount) tests are missing from allTests")
+        #endif
+    }
 
     func testQuery() throws {
         let models: [TestModel] = try [
@@ -61,9 +61,9 @@ final class PaginationTests: XCTestCase {
     }
 
     static var allTests = [
-		("testLinuxTestSuiteIncludesAllTests", testLinuxTestSuiteIncludesAllTests),
+        ("testLinuxTestSuiteIncludesAllTests", testLinuxTestSuiteIncludesAllTests),
         ("testQuery", testQuery),
         ("testFilterQuery", testFilterQuery),
-		("testPaginationResponse", testPaginationResponse)
+        ("testPaginationResponse", testPaginationResponse)
     ]
 }
