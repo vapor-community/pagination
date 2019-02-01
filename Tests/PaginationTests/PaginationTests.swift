@@ -38,14 +38,14 @@ final class PaginationTests: XCTestCase {
             TestModel.create(name: "Test 5", on: self.sqlConnection)
         ]
 
-        let pageInfo = try TestModel.query(on: self.sqlConnection).sort(\.id).paginate(page: 1).wait()
+        let pageInfo = try TestModel.query(on: self.sqlConnection).sort(\.id).getPage(current: 1).wait()
         XCTAssertEqual(pageInfo.total, models.count)
         XCTAssertEqual(pageInfo.data, models)
     }
 
     func testFilterQuery() throws {
         let model = try TestModel.create(name: "Test Filter", on: self.sqlConnection)
-        let pageInfo = try TestModel.query(on: self.sqlConnection).filter(\TestModel.name == "Test Filter").paginate(page: 1).wait()
+        let pageInfo = try TestModel.query(on: self.sqlConnection).filter(\TestModel.name == "Test Filter").getPage(current: 1).wait()
         XCTAssertEqual(pageInfo.total, 1)
         XCTAssertEqual(pageInfo.data.first?.name, model.name)
     }
@@ -54,11 +54,17 @@ final class PaginationTests: XCTestCase {
         for i in 0..<20 {
             try TestModel.create(name: "Test \(i)", on: self.sqlConnection)
         }
-        let pageInfo = try TestModel.query(on: self.sqlConnection).paginate(page: 1).wait()
-        let pageResponse = pageInfo.response()
+        let pageInfo = try TestModel.query(on: self.sqlConnection).getPage(current: 1).wait()
+        let pageResponse = Paginated(from: pageInfo)
         XCTAssertEqual(pageInfo.total, 20)
         XCTAssertEqual(pageResponse.page.position.max, 2)
     }
+
+}
+
+// MARK: - All Tests
+
+extension PaginationTests {
 
     static var allTests = [
         ("testLinuxTestSuiteIncludesAllTests", testLinuxTestSuiteIncludesAllTests),
@@ -66,4 +72,5 @@ final class PaginationTests: XCTestCase {
         ("testFilterQuery", testFilterQuery),
         ("testPaginationResponse", testPaginationResponse)
     ]
+
 }

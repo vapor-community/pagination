@@ -9,19 +9,19 @@ import Foundation
 import Fluent
 import Vapor
 
-public enum PaginationError: Error {
-    case invalidPageNumber(Int)
-    case invalidPerSize(Int)
-    case unspecified(Error)
-}
-
+/// Make a model paginatable.
 public protocol Paginatable: Model {
+
     static var defaultPageSize: Int { get }
     static var maxPageSize: Int? { get }
     static var defaultPageSorts: [Self.Database.QuerySort] { get }
+
 }
 
+// MARK: - Defualts
+
 extension Paginatable {
+
     public static var defaultPageSize: Int {
         return 10
     }
@@ -35,9 +35,11 @@ extension Paginatable {
             Self.createdAtKey?.querySort(Self.Database.querySortDirectionDescending) ?? Self.idKey.querySort(Self.Database.querySortDirectionDescending)
         ]
     }
+
 }
 
 extension KeyPath where Root: Model {
+
     public func querySort(_ direction: Root.Database.QuerySortDirection = Root.Database.querySortDirectionDescending) -> Root.Database.QuerySort {
         return Root.Database.querySort(self.queryField, direction)
     }
@@ -49,4 +51,5 @@ extension KeyPath where Root: Model {
     public var queryField: Root.Database.QueryField {
         return Root.Database.queryField(fluentProperty)
     }
+
 }
