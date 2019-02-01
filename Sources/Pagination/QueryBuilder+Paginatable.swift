@@ -17,8 +17,8 @@ extension QueryBuilder where Result: Paginatable & Content, Result.Database == D
     }
 
     /// Returns a custom page-based response using page number from the request data.
-    public func paginate<T>(for req: Request) throws -> Future<T> where T: PaginatedResponse, T.DataType == Result {
-        return try self.page(for: req).map(to: T.self) { T.init(from: $0) }
+    public func paginate<T>(for req: Request, response type: T.Type) throws -> Future<T> where T: PaginatedResponse, T.DataType == Result {
+        return try self.page(for: req).map(to: type) { type.init(from: $0) }
     }
 
     /// Returns a page-based response using page number from the request data using a transformtion closure.
@@ -33,10 +33,11 @@ extension QueryBuilder where Result: Paginatable & Content, Result.Database == D
     /// Returns a custom page-based response using page number from the request data using a transformtion closure.
     public func paginate<R, T>(
         on req: Request,
+        response type: T.Type,
         _ transformation: @escaping (QueryBuilder<Database, Result>) throws -> Future<[R]>
         ) throws -> Future<T> where T: PaginatedResponse, T.DataType == R {
 
-        return try self.page(for: req, transformation).map(to: T.self) { T.init(from: $0) }
+        return try self.page(for: req, transformation).map(to: type.self) { type.init(from: $0) }
     }
 
 }

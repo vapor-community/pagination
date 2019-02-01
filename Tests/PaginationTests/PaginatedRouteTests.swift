@@ -20,12 +20,12 @@ final class PaginationRouteTests: XCTestCase {
 
         // get pagianted response with custom resposne type
         router.get("/paginated/custom") { req throws -> CustomPaginatedResponse in
-            return try TestModel.query(on: req).paginate(for: req).wait()
+            return try TestModel.query(on: req).paginate(for: req, response: CustomPaginatedResponse.self).wait()
         }
 
         // get pagianted response with transformation closure
         router.get("/advanced") { req throws -> Paginated<TestModel.Public> in
-            let result = try TestModel.query(on: req).paginate(on: req) { builder -> Future<[TestModel.Public]> in
+            let result = try TestModel.query(on: req).paginate(on: req) { builder in
                 // transform query builder, do joins/alsoDecode etc.
                 return builder.all().map(to: [TestModel.Public].self) { models in
                     return models.map { TestModel.Public(name: $0.name) }
@@ -36,7 +36,7 @@ final class PaginationRouteTests: XCTestCase {
 
         // get pagianted response with transformation closure and custom response
         router.get("/advanced/custom") { req throws -> CustomPaginatedResponse in
-            let result: Future<CustomPaginatedResponse> = try TestModel.query(on: req).paginate(on: req) { builder -> Future<[TestModel]> in
+            let result = try TestModel.query(on: req).paginate(on: req, response: CustomPaginatedResponse.self) { builder in
                 // transform query builder, do joins/alsoDecode etc. and return in custom response
                 return builder.all().map(to: [TestModel].self) { models in
                     for model in models {
