@@ -10,9 +10,9 @@ import FluentSQLite
 import Vapor
 
 extension Application {
-    static func testable(envArgs: [String] = ["serve"]) throws -> Application {
+    static func testable(envArgs: [String] = ["serve"], services: Services = .default()) throws -> Application {
         let config = Config.default()
-        var services = Services.default()
+        var services = services
         var env = Environment.testing
         env.arguments = envArgs
 
@@ -34,4 +34,15 @@ extension Application {
         let revertEnvironment = ["vapor", "revert", "--all", "-y"]
         try Application.testable(envArgs: revertEnvironment).asyncRun().wait()
     }
+}
+
+extension Application {
+
+    func getResponse(to path: String) throws -> Response {
+        let responder = try self.make(Responder.self)
+        let request = HTTPRequest(method: .GET, url: URL(string: path)!)
+        let wrappedRequest = Request(http: request, using: self)
+        return try responder.respond(to: wrappedRequest).wait()
+    }
+
 }

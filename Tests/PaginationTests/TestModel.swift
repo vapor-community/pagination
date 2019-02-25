@@ -12,8 +12,8 @@ import Pagination
 import Vapor
 
 final class TestModel: SQLiteModel {
-    var id: Int?
 
+    var id: Int?
     var name: String
     
     var createdAt: Date?
@@ -23,6 +23,11 @@ final class TestModel: SQLiteModel {
         self.id = id
         self.name = name
     }
+
+    struct Public: Content {
+        let name: String
+    }
+
 }
 
 extension TestModel {
@@ -31,9 +36,7 @@ extension TestModel {
 }
 
 extension TestModel: Migration { }
-
 extension TestModel: Paginatable { }
-
 extension TestModel: Content { }
 
 extension TestModel {
